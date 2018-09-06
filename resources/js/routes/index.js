@@ -7,7 +7,10 @@ Vue.use(VueRouter);
 import Home from '../components/Home';
 import Login from '../components/auth/Login';
 
-import Customers from '../components/Customers';
+import CustomersMain from '../components/customers/Main';
+import ListCustomers from '../components/customers/List';
+import NewCustomer from '../components/customers/New';
+import CustomerDetail from '../components/customers/Detail';
 
 
 const routes = [
@@ -23,15 +26,16 @@ const routes = [
     },
     {
         path: '/customers',
-        component: Customers,
+        component: CustomersMain,
         meta: {
             requiresAuth: true,
         },
-        children: [
-            {path: '/', component: CustomersList},
-            {path:'/new',component:NewCustomer},
-            {path:'edit',component:EditCustomer}
+        children:[
+            {path:'/',component:ListCustomers},
+            {path:'new',component:NewCustomer},
+            {path:':id',component:CustomerDetail},
         ]
+
     }
 ];
 

@@ -12,6 +12,7 @@ axios.interceptors.response.use(null, (error) => {
         store.commit('logout');
         router.push('/login');
     }
+    return Promise.reject(error);
 });
 
 const app = new Vue({
