@@ -69,11 +69,7 @@
                     this.errors = errors;
                     return;
                 }
-                axios.post('api/customers/new', this.$data.customer, {
-                    headers: {
-                        'Authorization': `Bearer ${this.currentUser.token}`,
-                    }
-                }).then((response) => {
+                axios.post('api/customers/new', this.$data.customer).then((response) => {
                     this.$router.push('/customers');
                 }).catch((error)=>{
                    alert('error');

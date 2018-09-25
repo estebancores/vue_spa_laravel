@@ -23765,11 +23765,7 @@ var user = Object(__WEBPACK_IMPORTED_MODULE_2__helpers_auth__["a" /* getLocalUse
             context.commit('login');
         },
         getCustomers: function getCustomers(context) {
-            axios.get('api/customers', {
-                headers: {
-                    'Authorization': 'Bearer ' + context.state.currentUser.token
-                }
-            }).then(function (response) {
+            axios.get('api/customers').then(function (response) {
                 context.commit('updateCustomers', response.data.customers);
             });
         }
@@ -23849,6 +23845,8 @@ axios.interceptors.response.use(null, function (error) {
     }
     return Promise.reject(error);
 });
+
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].getters.currentUser.token;
 
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     router: __WEBPACK_IMPORTED_MODULE_2__routes__["a" /* default */],
@@ -52063,7 +52061,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.btn-wrapper[data-v-77478d7a] {\n    text-align: right;\n    margin:10px 0;\n}\n", ""]);
+exports.push([module.i, "\n.btn-wrapper[data-v-77478d7a] {\n    text-align: right;\n    margin: 10px 0;\n}\n", ""]);
 
 // exports
 
@@ -52114,6 +52112,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "list",
     mounted: function mounted() {
+        if (this.customers.length) {
+            return;
+        }
         this.$store.dispatch('getCustomers');
     },
 
@@ -52306,7 +52307,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -52393,11 +52394,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.errors = errors;
                 return;
             }
-            axios.post('api/customers/new', this.$data.customer, {
-                headers: {
-                    'Authorization': 'Bearer ' + this.currentUser.token
-                }
-            }).then(function (response) {
+            axios.post('api/customers/new', this.$data.customer).then(function (response) {
                 _this.$router.push('/customers');
             }).catch(function (error) {
                 alert('error');
@@ -53947,19 +53944,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         var _this = this;
 
-        axios.get("api/customers/" + this.$route.params.id, {
-            headers: {
-                'Authorization': "Bearer " + this.currentUser.token
-            }
-        }).then(function (response) {
-            _this.customer = response.data.customer;
-        });
+        if (this.customers.length) {
+            this.customers.find(function (customer) {
+                return customer.id == _this.$route.params.id;
+            });
+        } else {
+
+            axios.get("api/customers/" + this.$route.params.id).then(function (response) {
+                _this.customer = response.data.customer;
+            });
+        }
     },
 
     methods: {},
     computed: {
         currentUser: function currentUser() {
             return this.$store.getters.currentUser;
+        },
+        customers: function customers() {
+            return this.$store.getters.customers;
         }
     }
 
@@ -54096,6 +54099,14 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_navigation_Header__ = __webpack_require__(82);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_navigation_Header___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_navigation_Header__);
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -54449,7 +54460,17 @@ var render = function() {
   return _c(
     "div",
     { attrs: { id: "main" } },
-    [_c("Header"), _vm._v(" "), _c("router-view")],
+    [
+      _c("Header"),
+      _vm._v(" "),
+      _c("div", { staticClass: "page-content d-flex align-items-stretch" }, [
+        _c("div", { staticClass: "side-bar" }, [
+          _vm._v("\n            sidebar lugar del sidebar\n        ")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "container-fluid" }, [_c("router-view")], 1)
+      ])
+    ],
     1
   )
 }

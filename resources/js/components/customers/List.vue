@@ -38,6 +38,9 @@
     export default {
         name: "list",
         mounted() {
+            if (this.customers.length) {
+                return;
+            }
             this.$store.dispatch('getCustomers');
         },
         computed: {
@@ -52,6 +55,6 @@
 <style scoped>
     .btn-wrapper {
         text-align: right;
-        margin:10px 0;
+        margin: 10px 0;
     }
 </style>

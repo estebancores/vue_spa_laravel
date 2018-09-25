@@ -15,6 +15,8 @@ axios.interceptors.response.use(null, (error) => {
     return Promise.reject(error);
 });
 
+axios.defaults.headers.common['Authorization'] = `Bearer ${store.getters.currentUser.token}`;
+
 const app = new Vue({
     router,
     store,

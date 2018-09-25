@@ -1,7 +1,15 @@
 <template>
     <div id="main">
         <Header></Header>
-        <router-view></router-view>
+        <div class="page-content d-flex align-items-stretch">
+
+            <div class="side-bar">
+                sidebar lugar del sidebar
+            </div>
+            <div class="container-fluid">
+                <router-view></router-view>
+            </div>
+        </div>
     </div>
 </template>
 
